@@ -17,4 +17,15 @@ public class DictionaryTest {
 	public void initialisation(){
 		assertEquals("francaisAnglais", dico.getName());
 	}
-}
+	
+	@Test
+	public void videAuDebut() {
+		assertEquals(0, dico.getTranslations().size());
+	}
+	
+	@Test
+	public void ajoutDeTraductionDonneTraduction() {
+		this.dico.addTranslation("oui", "yes");
+		assertEquals("yes", this.dico.getTranslation("oui"));
+	}
+} 
