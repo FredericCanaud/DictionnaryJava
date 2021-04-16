@@ -6,10 +6,12 @@ import java.util.HashMap;
 public class Dictionary {
 	private String name;
 	private HashMap<String, ArrayList<String>> translations;
+	private HashMap<String, ArrayList<String>> reverseTranslations;
 	
 	public Dictionary(String name) {
 		this.name = name;
 		this.translations = new HashMap<String, ArrayList<String>>();
+		this.reverseTranslations = new HashMap<String, ArrayList<String>>();
 	}
 
 	public String getName() {
@@ -25,6 +27,14 @@ public class Dictionary {
 			this.translations.put(word, new ArrayList<String>());
 		}
 		this.translations.get(word).add(translation);
+		this.addReverseTranslation(word, translation);
+	}
+	
+	public void addReverseTranslation(String word, String translation) {
+		if (null == this.reverseTranslations.get(translation)) {
+			this.reverseTranslations.put(translation, new ArrayList<String>());
+		}
+		this.reverseTranslations.get(translation).add(word);
 	}
 	
 	public String getTranslation(String word) {
@@ -36,5 +46,18 @@ public class Dictionary {
 
 	public ArrayList<String> getMultipleTranslations(String word) {
 		return this.translations.get(word);
+	}
+	
+	
+	
+	public String getReverseTranslation(String word) {
+		if (null == this.reverseTranslations.get(word)) {
+			return null;
+		}
+		return this.reverseTranslations.get(word).get(0);
+	}
+
+	public ArrayList<String> getMultipleReverseTranslations(String word) {
+		return this.reverseTranslations.get(word);
 	}
 }
