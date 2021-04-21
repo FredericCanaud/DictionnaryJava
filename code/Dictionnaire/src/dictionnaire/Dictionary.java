@@ -37,27 +37,33 @@ public class Dictionary {
 		this.reverseTranslations.get(translation).add(word);
 	}
 	
-	public String getTranslation(String word) {
+	public String getTranslation(String word) throws TranslationNotFoundException {
 		if (null == this.translations.get(word)) {
-			return null;
+			throw new TranslationNotFoundException();
 		}
 		return this.translations.get(word).get(0);
 	}
 
-	public ArrayList<String> getMultipleTranslations(String word) {
+	public ArrayList<String> getMultipleTranslations(String word) throws TranslationNotFoundException {
+		if (null == this.translations.get(word)) {
+			throw new TranslationNotFoundException();
+		}
 		return this.translations.get(word);
 	}
 	
 	
 	
-	public String getReverseTranslation(String word) {
+	public String getReverseTranslation(String word) throws TranslationNotFoundException {
 		if (null == this.reverseTranslations.get(word)) {
-			return null;
+			throw new TranslationNotFoundException();
 		}
 		return this.reverseTranslations.get(word).get(0);
 	}
 
-	public ArrayList<String> getMultipleReverseTranslations(String word) {
+	public ArrayList<String> getMultipleReverseTranslations(String word) throws TranslationNotFoundException {
+		if (null == this.reverseTranslations.get(word)) {
+			throw new TranslationNotFoundException();
+		}
 		return this.reverseTranslations.get(word);
 	}
 }

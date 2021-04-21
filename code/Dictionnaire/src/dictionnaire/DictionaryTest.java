@@ -30,21 +30,21 @@ public class DictionaryTest {
 	// EXERCICE 2
 	
 	@Test
-	public void ajoutDeTraductionDonneTraduction() {
+	public void ajoutDeTraductionDonneTraduction() throws TranslationNotFoundException {
 		this.dico.addTranslation("oui", "yes");
-		assertEquals("yes", this.dico.getTranslation("oui"));
+		this.dico.getTranslation("oui");
 	}
 	
-	@Test
-	public void pasDeTraductionDonneNull() {
-		assertEquals(null, this.dico.getTranslation("oui"));
+	@Test (expected = TranslationNotFoundException.class)
+	public void pasDeTraductionDonneException() throws TranslationNotFoundException {
+		this.dico.getTranslation("oui");
 	}
 	
 	
 	// EXERCICE 3
 	
 	@Test
-	public void multipleTraductionDonneTraductions() {
+	public void multipleTraductionDonneTraductions() throws TranslationNotFoundException {
 		this.dico.addTranslation("oui", "yes");
 		this.dico.addTranslation("oui", "yeah");
 		this.dico.addTranslation("oui", "yop");
@@ -54,9 +54,9 @@ public class DictionaryTest {
 		assertTrue(this.dico.getMultipleTranslations("oui").contains("yop"));
 	}
 	
-	@Test
-	public void pasMultipleTraductionDonneNull() {
-		assertEquals(null, this.dico.getMultipleTranslations("oui"));
+	@Test (expected = TranslationNotFoundException.class)
+	public void pasMultipleTraductionDonneException() throws TranslationNotFoundException {
+		this.dico.getMultipleTranslations("oui");
 	}
 	
 	
@@ -68,18 +68,18 @@ public class DictionaryTest {
 	}
 	
 	@Test
-	public void ajoutDeTraductionDonneTraductionInverse() {
+	public void ajoutDeTraductionDonneTraductionInverse() throws TranslationNotFoundException {
 		this.dico.addTranslation("oui", "yes");
 		assertEquals("oui", this.dico.getReverseTranslation("yes"));
 	}
 	
-	@Test
-	public void pasDeReverseTraductionDonneNull() {
-		assertEquals(null, this.dico.getReverseTranslation("yes"));
+	@Test (expected = TranslationNotFoundException.class)
+	public void pasDeReverseTraductionDonneException() throws TranslationNotFoundException {
+		this.dico.getReverseTranslation("yes");
 	}
 	
-	@Test
-	public void multipleReverseTraductionDonneTraductions() {
+	@Test 
+	public void multipleReverseTraductionDonneTraductions() throws TranslationNotFoundException {
 		this.dico.addTranslation("justice", "law");
 		this.dico.addTranslation("loi", "law");
 		this.dico.addTranslation("droit", "law");
@@ -89,9 +89,9 @@ public class DictionaryTest {
 		assertTrue(this.dico.getMultipleReverseTranslations("law").contains("droit"));
 	}
 	
-	@Test
-	public void pasMultipleReverseTraductionDonneNull() {
-		assertEquals(null, this.dico.getMultipleReverseTranslations("yes"));
+	@Test (expected = TranslationNotFoundException.class)
+	public void pasMultipleReverseTraductionDonneException() throws TranslationNotFoundException {
+		this.dico.getMultipleReverseTranslations("yes");
 	}
 	
 } 
