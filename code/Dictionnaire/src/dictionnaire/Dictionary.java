@@ -1,5 +1,7 @@
 package dictionnaire;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,5 +67,13 @@ public class Dictionary {
 			throw new TranslationNotFoundException();
 		}
 		return this.reverseTranslations.get(word);
+	}
+
+	public Dictionary(BufferedReader bufferedReader) throws IOException {
+		FileParser fileParser = new FileParser();
+		Dictionary result = fileParser.readFile(bufferedReader);
+		this.name = result.name;
+		this.translations = result.translations;
+		this.reverseTranslations = result.reverseTranslations;
 	}
 }

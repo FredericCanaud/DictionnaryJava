@@ -2,11 +2,17 @@ package dictionnaire;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DictionaryTest {
@@ -17,6 +23,7 @@ public class DictionaryTest {
 		this.dico = new Dictionary("francaisAnglais");
 	}
 
+	
 	// EXERCICE 1
 	
 	@Test
@@ -102,6 +109,55 @@ public class DictionaryTest {
 	public void pasMultipleReverseTraductionDonneException() {
 		assertThrows(TranslationNotFoundException.class, () -> {
 			this.dico.getMultipleReverseTranslations("yes");
+		});
+	}
+	
+	
+	// EXERCICE 5
+
+	@Test
+	public void ajoutTraductionsParFichierNormal() throws IOException, TranslationNotFoundException {
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn(
+				"frEn",
+				"justice;law", 
+				"droit;law",
+				"loi;law",
+				null);
+
+		this.dico = new Dictionary(bufferedReader);
+
+		assertEquals("frEn", dico.getName());
+
+		assertTrue(this.dico.getMultipleTranslations("droit").contains("law"));
+		assertTrue(this.dico.getMultipleTranslations("loi").contains("law"));
+		assertTrue(this.dico.getMultipleTranslations("justice").contains("law"));
+
+		assertTrue(this.dico.getMultipleReverseTranslations("law").contains("justice"));
+		assertTrue(this.dico.getMultipleReverseTranslations("law").contains("loi"));
+		assertTrue(this.dico.getMultipleReverseTranslations("law").contains("droit"));
+	}
+	
+	@Test
+	public void ajoutTraductionParFichierVide() throws IOException {
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn(null);
+		assertThrows(IOException.class, () -> {
+			this.dico = new Dictionary(bufferedReader);
+		});
+	}
+	
+	@Test
+	public void ajoutTraductionParFichierAvecMauvaisDelimiteur() throws IOException {
+		BufferedReader bufferedReader = mock(BufferedReader.class);
+		when(bufferedReader.readLine()).thenReturn(
+				"frEn",
+				"justice law", 
+				"droit law",
+				"loi law",
+				null);
+		assertThrows(IOException.class, () -> {
+			this.dico = new Dictionary(bufferedReader);
 		});
 	}
 	
